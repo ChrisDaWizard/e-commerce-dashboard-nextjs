@@ -3,29 +3,29 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { SettingsForm } from "./components/settings-form";
 
-interface SettingsPageProps {
+interface SettingsPageProps { //interface se usa al ser un projecto con typescript EXCLUSIVO, si fuera vanilla js, no se definen tipos estaticos, asi TS define objetos
     params: {
         storeId: string;
     }
 };
 
-const SettingsPage: React.FC<SettingsPageProps> = async({
+const SettingsPage: React.FC<SettingsPageProps> = async({ //react.fc es functional component
     params
 }) => {
-    const { userId} = await auth();
+    const { userId} = await auth(); //Saca el user del usuario autenticado con Clerk, si no hay sesión, sera null
 
     if (!userId) {
         redirect("/sign-in")
     }
 
-    const store = await prismadb.store.findFirst({
+    const store = await prismadb.store.findFirst({ //busca en la base de datos una tienda que pertenezca al usuario
         where: {
             id: params.storeId,
             userId
         }
     });
 
-    if (!store) {
+    if (!store) { //si no existe, redirige a home
         redirect("/");
     }
 

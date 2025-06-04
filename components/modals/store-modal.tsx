@@ -13,7 +13,7 @@ import { useState } from "react";
 import axios, { Axios } from "axios";
 import toast from "react-hot-toast";
 
-const formSchema = z.object({
+const formSchema = z.object({ //valida que name no sea un string vacio
     name: z.string().min(1),
 });
 
@@ -23,7 +23,7 @@ export const StoreModal = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const form = useForm<z.infer<typeof formSchema>>({
+    const form = useForm<z.infer<typeof formSchema>>({ //Le estamos diciendo a useForm cuál es el tipo de datos que manejará el formulario, y ese tipo lo estamos sacando automáticamente desde el formSchema de Zod.z.infer<...> extrae automáticamente el tipo de los datos validados por el schema.
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
@@ -36,7 +36,7 @@ export const StoreModal = () => {
 
             const response = await axios.post("/api/stores", values);
 
-            window.location.assign(`/${response.data.id}`);
+            window.location.assign(`/${response.data.id}`); //redirige al usuario a una nueva url
         } catch (error) {
             toast.error("Something went wrong.");
         } finally {

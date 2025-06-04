@@ -7,10 +7,10 @@ export default async function DashboardLayout({
     children,
     params
 }: {
-    children: React.ReactNode;
+    children: React.ReactNode; //tipo de TypeScript que representa cualquier cosa que React pueda renderizar.
     params: { storeId: string}
 }) {
-    const { userId } = await auth();
+    const { userId } = await auth();//Usa Clerk para verificar que el usuario esté logueado. Si no lo está, lo manda a la página de inicio de sesión.
 
     if(!userId) {
         redirect("/sign-in")
